@@ -323,3 +323,54 @@ index <- x > "a"
 
 # Output
 [1] FALSE  TRUE
+
+
+# Tabular data, read files
+
+# read.table, efficient with small files without params.
+# params
+# col.Classes  vector with col classes
+
+# To know the cols classes, we can execute>
+
+initial <- read.table('test.txt', nrows=100) # Rows to read limited
+classes <- sapply(initial, class) # Returns vector with classes
+
+# Then we can execute again read.tables passing the classes variables as colClasses
+initial <- read.table('test.txt', nrows=100, colClasses = classes)
+
+
+# Dump context-data to files
+dump(c("x","y"), file="datos.R")
+rm(x,y) # Removes from actual context
+source("datos.R")
+# x,y are again on context
+
+# Example using delimiter character "sep", and file conding
+#  header=TRUE means the first row in the file are haeders- col labels
+# Remember to use fileEncoding in order to correctly process ñ or speceific language accents
+datos <- read.table("swirl_temp/inmigintnalpry.csv", header=TRUE, sep=",", fileEncoding = "latin1")
+
+# use read.cvs2() and read.delim2()  if the values stored in the source file have decimal point values
+# In order to avoid import errors
+
+# Save objets to filesystem
+save()
+save(datos, clases, file="swirl_temp/datos_inmigrates.RData")
+
+restpre context data from file
+load()
+load("swirl_temp/datos_inmigrates.RData")
+
+# These last commands save and load are like dump and source, iIthink
+
+# To store all session context, use:
+save.image() 
+# this command is the same executed when we close R studio and select store session.
+
+# Store datafrmes or matrix in files located on filesystem
+write.table(datos, file="swirl_temp/datos.txt") 
+# by default, the line limiter character is space if sep parameter is not set.
+
+# using write.csv will store with comma separated values
+
